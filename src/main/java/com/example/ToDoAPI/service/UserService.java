@@ -15,7 +15,7 @@ public class UserService {
 
     UserRepository userRepository;
 
-    public User getUser(Long id) {
+    public User getUserById(Long id) {
         Optional<User> user = userRepository.findById(id);
         return unwrapUser(user, id);
     }
