@@ -28,10 +28,10 @@ public class UserController {
         return new ResponseEntity<>(userService.createUser(user), HttpStatus.CREATED);
     }
 
-//    @GetMapping("/all")
-//    public ResponseEntity<List<User>> getUsers() {
-//        return new ResponseEntity<List<User>>(userService.getUsers(), HttpStatus.OK);
-//    }
+    @GetMapping("/all")
+    public ResponseEntity<List<User>> getUsers() {
+        return new ResponseEntity<List<User>>(userService.getUsers(), HttpStatus.OK);
+    }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<HttpStatus> deleteUser(@PathVariable Long id) {

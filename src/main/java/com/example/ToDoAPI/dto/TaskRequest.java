@@ -8,7 +8,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
-public record TaskRequest(String title, String description) {
-
-
+public class TaskRequest {
+    String title;
+    String description;
 }

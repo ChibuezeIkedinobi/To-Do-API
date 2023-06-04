@@ -31,9 +31,9 @@ public class UserService {
         userRepository.deleteById(id);
     }
 
-//    public List<User> getUsers() {
-//        return (List<User>) userRepository.findAll();
-//    }
+    public List<User> getUsers() {
+        return (List<User>) userRepository.findAll();
+    }
 
     static User unwrapUser(Optional<User> entity, Long id) {
         if (entity.isPresent()) return entity.get();
