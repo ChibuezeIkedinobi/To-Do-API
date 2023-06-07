@@ -1,5 +1,6 @@
 package com.example.ToDoAPI.service;
 
+import com.example.ToDoAPI.entity.Task;
 import com.example.ToDoAPI.entity.User;
 import com.example.ToDoAPI.exception.UserNotFoundException;
 import com.example.ToDoAPI.repository.UserRepository;
@@ -35,8 +36,14 @@ public class UserService {
         return (List<User>) userRepository.findAll();
     }
 
+    public List<Task> getAssignedTasks(Long id) {
+        User user = getUserById(id);
+        return user.getAllTasks();
+    }
+
     static User unwrapUser(Optional<User> entity, Long id) {
         if (entity.isPresent()) return entity.get();
         else throw new UserNotFoundException(id);
     }
+
 }

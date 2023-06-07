@@ -1,9 +1,9 @@
 package com.example.ToDoAPI.controller;
 
 import com.example.ToDoAPI.dto.TaskRequest;
+import com.example.ToDoAPI.dto.TaskStatusUpdateRequest;
 import com.example.ToDoAPI.entity.Task;
 import com.example.ToDoAPI.service.TaskService;
-import com.example.ToDoAPI.service.UserService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -22,13 +22,27 @@ public class TaskController {
         return new ResponseEntity<>(taskService.getTaskById(id), HttpStatus.OK);
     }
 
-    @PostMapping
-    public ResponseEntity<Task> createTask(@Valid @RequestBody TaskRequest task) {
-        return new ResponseEntity<>(taskService.createTask(task), HttpStatus.CREATED);
+    @PostMapping("/user/{id}")
+    public ResponseEntity<Task> addTaskToUser( @PathVariable Long id,
+                                               @Valid @RequestBody TaskRequest task) {
+        return new ResponseEntity<>(taskService.addTaskToUser(task, id), HttpStatus.CREATED);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Task> updateTask(@PathVariable Long id, @Valid @RequestBody TaskRequest task) {
-        return new ResponseEntity<>(taskService.updateTask(id, task), HttpStatus.OK);
+    @PutMapping("/{taskId}/user/{userId}")
+    public ResponseEntity<Task> updateTask(@PathVariable Long userId, @PathVariable Long taskId,
+                                           @Valid @RequestBody TaskRequest task) {
+        return new ResponseEntity<>(taskService.updateTask(userId, taskId, task), HttpStatus.OK);
+    }
+
+    @PatchMapping("/{taskId}/user/{userId}")
+    public ResponseEntity<Task> updateStatus(@PathVariable Long userId, @PathVariable Long taskId,
+                                             @Valid @RequestBody TaskStatusUpdateRequest status) {
+        return new ResponseEntity<>(taskService.updateStatus(userId, taskId, status), HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<HttpStatus> deleteTask(@PathVariable Long id) {
+        taskService.deleteTask(id);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

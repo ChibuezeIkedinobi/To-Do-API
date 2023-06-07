@@ -1,16 +1,17 @@
 package com.example.ToDoAPI.entity;
 
-import com.example.ToDoAPI.enumClass.TaskStatus;
+import com.example.ToDoAPI.enums.TaskStatus;
+import com.example.ToDoAPI.validation.Status;
 import jakarta.persistence.*;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.*;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 
 @Entity
 @Table(name = "task")
@@ -26,11 +27,14 @@ public class Task {
     private Long id;
 
     @NotBlank
+    @NotNull(message = "title shouldn't be null")
     private String title;
 
     @NotBlank
+    @NotNull(message = "Description shouldn't be null")
     private String description;
 
+    @Status
     @Enumerated(EnumType.STRING)
     private TaskStatus status;
 

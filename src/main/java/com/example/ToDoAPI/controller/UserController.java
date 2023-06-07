@@ -1,7 +1,7 @@
 package com.example.ToDoAPI.controller;
 
+import com.example.ToDoAPI.entity.Task;
 import com.example.ToDoAPI.entity.User;
-import com.example.ToDoAPI.enumClass.TaskStatus;
 import com.example.ToDoAPI.service.UserService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -19,7 +19,7 @@ public class UserController {
     UserService userService;
 
     @GetMapping("/{id}")
-    public ResponseEntity<User> getUserById(@PathVariable("id") Long id) {
+    public ResponseEntity<User> getUserById(@PathVariable Long id) {
         return new ResponseEntity<>(userService.getUserById(id), HttpStatus.OK);
     }
 
@@ -30,14 +30,18 @@ public class UserController {
 
     @GetMapping("/all")
     public ResponseEntity<List<User>> getUsers() {
-        return new ResponseEntity<List<User>>(userService.getUsers(), HttpStatus.OK);
+        return new ResponseEntity<>(userService.getUsers(), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<HttpStatus> deleteUser(@PathVariable Long id) {
         userService.deleteUser(id);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
 
+    @GetMapping("/{id}/tasks")
+    public ResponseEntity<List<Task>> getAssignedTasks(@PathVariable Long id) {
+        return new ResponseEntity<>(userService.getAssignedTasks(id), HttpStatus.OK);
     }
 
 //    @GetMapping("/todo")

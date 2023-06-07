@@ -5,7 +5,9 @@ import jakarta.persistence.*;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.*;
 import org.springframework.data.annotation.CreatedDate;
@@ -18,6 +20,7 @@ import java.util.List;
 @Table(name = "user")
 @SQLDelete(sql = "UPDATE user SET deleted_at = NOW() WHERE id=?", check = ResultCheckStyle.COUNT)
 @Where(clause = "deleted_at IS NULL")
+@NoArgsConstructor
 @Getter
 @Setter
 public class User {
@@ -27,9 +30,11 @@ public class User {
     private Long id;
 
     @NotBlank
+    @NotNull()
     private String name;
 
     @NotBlank
+    @NotNull
     private String email;
 
     @Column(nullable = false, updatable = false, name = "created_at")
@@ -52,6 +57,6 @@ public class User {
 
     @JsonIgnore
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<Task> tasks;
+    private List<Task> allTasks;
 
 }
