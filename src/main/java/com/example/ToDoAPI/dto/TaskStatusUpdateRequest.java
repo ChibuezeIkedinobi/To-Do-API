@@ -1,6 +1,5 @@
 package com.example.ToDoAPI.dto;
 
-import com.example.ToDoAPI.validation.Status;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -14,6 +13,5 @@ import lombok.Setter;
 public class TaskStatusUpdateRequest {
 
     @NotBlank(message = "status shouldn't be blank")
-    @Status
     private String status;
 }

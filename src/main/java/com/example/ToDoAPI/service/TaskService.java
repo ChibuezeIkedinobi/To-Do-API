@@ -42,10 +42,9 @@ public class TaskService {
     }
 
     public Task updateTask(Long userId, Long taskId, TaskRequest taskRequest) {
-        Optional<Task> verifyTask = taskRepository.findById(taskId);
-        Optional<User> verifyUser = userRepository.findById(userId);
+        Optional<Task> verifyTask = taskRepository.findByTaskIdAndUserId(taskId, userId);
 
-        if (verifyTask.isPresent() && verifyUser.isPresent()){
+        if (verifyTask.isPresent()){
             Task task = verifyTask.get();
             task.setTitle(taskRequest.getTitle());
             task.setDescription(taskRequest.getDescription());
@@ -55,10 +54,9 @@ public class TaskService {
     }
 
     public Task updateStatus(Long userId, Long taskId, @Valid TaskStatusUpdateRequest taskRequest) {
-        Optional<Task> verifyTask = taskRepository.findById(taskId);
-        Optional<User> verifyUser = userRepository.findById(userId);
+        Optional<Task> verifyTask = taskRepository.findByTaskIdAndUserId(taskId, userId);
 
-        if (verifyTask.isPresent() && verifyUser.isPresent()){
+        if (verifyTask.isPresent()){
             try {
                 Task task = verifyTask.get();
                 task.setStatus(TaskStatus.getStatus(taskRequest.getStatus()));

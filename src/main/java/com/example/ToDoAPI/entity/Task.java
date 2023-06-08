@@ -1,7 +1,7 @@
 package com.example.ToDoAPI.entity;
 
 import com.example.ToDoAPI.enums.TaskStatus;
-import com.example.ToDoAPI.validation.Status;
+//import com.example.ToDoAPI.validation.Status;
 import jakarta.persistence.*;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
@@ -34,7 +34,6 @@ public class Task {
     @NotNull(message = "Description shouldn't be null")
     private String description;
 
-    @Status
     @Enumerated(EnumType.STRING)
     private TaskStatus status;
 
@@ -56,6 +55,6 @@ public class Task {
     }
 
     @ManyToOne(optional = false)
-    @JoinColumn(name = "user", referencedColumnName = "id")
+    @JoinColumn(name = "user", referencedColumnName = "id")  // use user_id next time.
     private User user;
 }
