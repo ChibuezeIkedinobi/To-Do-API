@@ -5,7 +5,9 @@ import com.example.ToDoAPI.dto.TaskStatusUpdateRequest;
 import com.example.ToDoAPI.entity.Task;
 import com.example.ToDoAPI.entity.User;
 import com.example.ToDoAPI.enums.TaskStatus;
+import com.example.ToDoAPI.exception.InvalidInputException;
 import com.example.ToDoAPI.exception.TaskNotFoundException;
+import com.example.ToDoAPI.exception.UserNotFoundException;
 import com.example.ToDoAPI.repository.TaskRepository;
 import com.example.ToDoAPI.repository.UserRepository;
 import jakarta.validation.Valid;
@@ -13,6 +15,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @AllArgsConstructor
@@ -22,6 +25,7 @@ public class TaskService {
 
     TaskRepository taskRepository;
     UserRepository userRepository;
+
 
     public Task getTaskById(Long id) {
         Optional<Task> task = taskRepository.findById(id);
@@ -59,14 +63,30 @@ public class TaskService {
         if (verifyTask.isPresent()){
             try {
                 Task task = verifyTask.get();
-                task.setStatus(TaskStatus.getStatus(taskRequest.getStatus()));
+                task.setStatus(validateStatus(taskRequest));
                 return taskRepository.save(task);
-            } catch (Exception e) {
+            } catch (InvalidInputException e) {
                 log.error(e.getLocalizedMessage());
-                throw new TaskNotFoundException(taskId);
+                throw new InvalidInputException();
             }
         }
         else throw new TaskNotFoundException(taskId);
+    }
+
+    public List<Task> getUserTaskByStatus(Long id, String status) {
+
+        Optional<User> user = userRepository.findById(id);
+
+        if (user.isPresent()) {
+            TaskStatus validate = TaskStatus.getStatus(status);
+            return taskRepository.findByUserIdAndStatus(id, validate.toString());
+        } else throw new UserNotFoundException(id);
+
+    }
+
+    public List<Task> getAllTaskByStatus(String stat) {
+        TaskStatus status = TaskStatus.getStatus(stat);
+        return taskRepository.findByStatus(status.name());  // .name gets the string equivalent of the status. for enums alone
     }
 
     public void deleteTask(Long id) {
@@ -77,6 +97,11 @@ public class TaskService {
         if (entity.isPresent()) return entity.get();
         else throw new TaskNotFoundException(id);
     }
+
+    static TaskStatus validateStatus(TaskStatusUpdateRequest status) {
+        return TaskStatus.getStatus(status.getStatus());
+    }
+
 
 
 }

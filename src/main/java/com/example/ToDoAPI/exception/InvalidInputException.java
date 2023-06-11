@@ -1,8 +1,10 @@
 package com.example.ToDoAPI.exception;
 
+import com.example.ToDoAPI.dto.TaskStatusUpdateRequest;
+
 public class InvalidInputException extends RuntimeException {
 
     public InvalidInputException() {
-        super("Invalid input");
+        super("The input is Invalid");
     }
 }

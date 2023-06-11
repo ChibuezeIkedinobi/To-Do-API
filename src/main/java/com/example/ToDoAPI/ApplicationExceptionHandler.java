@@ -1,6 +1,7 @@
 package com.example.ToDoAPI;
 
 import com.example.ToDoAPI.exception.ErrorResponse;
+import com.example.ToDoAPI.exception.InvalidInputException;
 import com.example.ToDoAPI.exception.TaskNotFoundException;
 import com.example.ToDoAPI.exception.UserNotFoundException;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -21,7 +22,7 @@ import java.util.List;
 @ControllerAdvice
 public class ApplicationExceptionHandler extends ResponseEntityExceptionHandler {
 
-    @ExceptionHandler({TaskNotFoundException.class, UserNotFoundException.class})
+    @ExceptionHandler({TaskNotFoundException.class, UserNotFoundException.class, InvalidInputException.class})
     public ResponseEntity<Object> handleResourceNotFoundException(RuntimeException ex) {
         ErrorResponse error = new ErrorResponse(Arrays.asList(ex.getMessage()));
         return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);

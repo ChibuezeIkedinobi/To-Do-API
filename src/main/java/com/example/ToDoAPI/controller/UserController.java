@@ -44,13 +44,4 @@ public class UserController {
         return new ResponseEntity<>(userService.getAssignedTasks(id), HttpStatus.OK);
     }
 
-//    @GetMapping("/todo")
-//    public ResponseEntity<HttpStatus> test(
-//            @RequestParam(value = "status", required = false) TaskStatus status,
-//            @RequestParam(value = "id", required = false) Long id,
-//            @RequestParam(value = "page", required = false, defaultValue = "1") Long page,
-//            @RequestParam(value = "size", required = false, defaultValue = "10") Long size) {
-//
-//    }
-
 }
