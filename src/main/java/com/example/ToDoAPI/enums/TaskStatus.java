@@ -18,7 +18,7 @@ public enum TaskStatus {
 
     @Setter
     @Getter
-    private String message;  // used lombok annotation for the string alone
+    private String message;  // used lombok annotation for the string alone.
 
     private static Map<String, TaskStatus> statuses = new HashMap<>();
 
