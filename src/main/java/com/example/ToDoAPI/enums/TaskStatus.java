@@ -18,18 +18,18 @@ public enum TaskStatus {
 
     @Setter
     @Getter
-    private String message;
+    private String message;  // used lombok annotation for the string alone
 
     private static Map<String, TaskStatus> statuses = new HashMap<>();
 
     static {
-        for(TaskStatus status : values()) {
+        for(TaskStatus status : values()) {  // loops through the message values of the enum and saves it in the map in lowercase as a string cos a string is being passed at the request param
             statuses.put(status.getMessage().toLowerCase(), status);
         }
     }
 
-    public static TaskStatus getStatus(String status) {
-        TaskStatus status1 = statuses.get(status.toLowerCase());
+    public static TaskStatus getStatus(String status) { // validation to get status..
+        TaskStatus status1 = statuses.get(status.toLowerCase());  // compare the passed status to those inside the hashmap for validation
         if (status1 != null) {
             return status1;
         }

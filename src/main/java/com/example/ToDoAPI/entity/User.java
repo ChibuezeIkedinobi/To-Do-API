@@ -17,8 +17,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
-@Table(name = "user")
-@SQLDelete(sql = "UPDATE user SET deleted_at = NOW() WHERE id=?", check = ResultCheckStyle.COUNT)
+@Table(name = "user")  // where the table name is task
+@SQLDelete(sql = "UPDATE user SET deleted_at = NOW() WHERE id=?", check = ResultCheckStyle.COUNT)  // initiating soft delete
 @Where(clause = "deleted_at IS NULL")
 @NoArgsConstructor
 @Getter
@@ -57,6 +57,6 @@ public class User {
 
     @JsonIgnore
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<Task> allTasks;
+    private List<Task> allTasks;  // where all tasks associated to a particular user are saved. one user to a list of tasks
 
 }

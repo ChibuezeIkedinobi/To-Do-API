@@ -14,8 +14,8 @@ import org.hibernate.annotations.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "task")
-@SQLDelete(sql = "UPDATE task SET deleted_at = NOW() WHERE id=?", check = ResultCheckStyle.COUNT)
+@Table(name = "task")  // where the table name is task
+@SQLDelete(sql = "UPDATE task SET deleted_at = NOW() WHERE id=?", check = ResultCheckStyle.COUNT)  // initiating soft delete
 @Where(clause = "deleted_at IS NULL")
 @NoArgsConstructor
 @Getter
@@ -55,6 +55,6 @@ public class Task {
     }
 
     @ManyToOne(optional = false)
-    @JoinColumn(name = "user", referencedColumnName = "id")  // use user_id next time.
-    private User user;
+    @JoinColumn(name = "user", referencedColumnName = "id")  // use user_id next time. name of the foreign key in the task table
+    private User user;  //where all tasks associated to one particular user is stored. many tasks to one user
 }

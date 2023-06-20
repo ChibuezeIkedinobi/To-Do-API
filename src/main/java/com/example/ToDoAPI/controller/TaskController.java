@@ -15,61 +15,50 @@ import java.util.List;
 
 @AllArgsConstructor
 @RestController
-@RequestMapping("/task")
+@RequestMapping("/task")  // native URI
 public class TaskController {
 
     TaskService taskService;
 
-    @GetMapping("/{id}")
+    @GetMapping("/{id}")  // get a particular task using the id
     public ResponseEntity<Task> getTaskById(@PathVariable Long id) {
         return new ResponseEntity<>(taskService.getTaskById(id), HttpStatus.OK);
     }
 
-    @PostMapping("/user/{id}")
-    public ResponseEntity<Task> addTaskToUser( @PathVariable Long id,
-                                               @Valid @RequestBody TaskRequest task) {
+    @PostMapping("/user/{id}")  // create task and add it to a user.
+    public ResponseEntity<Task> addTaskToUser( @PathVariable Long id,  // takes in the id of the user whom the task is to be assigned to
+                                               @Valid @RequestBody TaskRequest task) {    // takes the passed in request in the DTO instead of task for security reasons
         return new ResponseEntity<>(taskService.addTaskToUser(task, id), HttpStatus.CREATED);
     }
 
-    @PutMapping("/{taskId}/user/{userId}")
+    @PutMapping("/{taskId}/user/{userId}")  // update task details using the user id and the task id
     public ResponseEntity<Task> updateTask(@PathVariable Long userId, @PathVariable Long taskId,
-                                           @Valid @RequestBody TaskRequest task) {
+                                           @Valid @RequestBody TaskRequest task) {   // takes in the corrected task JSON in the DTO
         return new ResponseEntity<>(taskService.updateTask(userId, taskId, task), HttpStatus.OK);
     }
 
-    @PutMapping("/user/{taskId}/{userId}")
+    @PutMapping("/user/{taskId}/{userId}")  // update the status of a task taking the taskId, userId and a DTO
     public ResponseEntity<Task> updateStatus(@PathVariable Long userId,
                                              @PathVariable Long taskId,
                                              @Valid @RequestBody TaskStatusUpdateRequest status) {
         return new ResponseEntity<>(taskService.updateStatus(userId, taskId, status), HttpStatus.OK);
     }
 
-    @GetMapping("/user/{id}")
-    public ResponseEntity<List<Task>> getUserTaskByStatus(@PathVariable Long id,
-                                                          @RequestParam String status) {
+    @GetMapping("/user/{id}")   // get tasks assigned to a user by the status(pending,started,completed)
+    public ResponseEntity<List<Task>> getUserTaskByStatus(@PathVariable Long id,  // takes in the id of the user
+                                                          @RequestParam String status) {  // pass the parameter of the status as a string format
         return new ResponseEntity<>(taskService.getUserTaskByStatus(id, status), HttpStatus.OK);
     }
 
-    @GetMapping("/allTask")
-    public ResponseEntity<List<Task>> getAllTaskByStatus(@RequestParam String status) {
+    @GetMapping("/allTask")  // get all available tasks by the value of their status
+    public ResponseEntity<List<Task>> getAllTaskByStatus(@RequestParam String status) {  // pass the parameter of the status
         return new ResponseEntity<>(taskService.getAllTaskByStatus(status),HttpStatus.OK);
     }
 
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{id}")  // delete a particular task by the id
     public ResponseEntity<HttpStatus> deleteTask(@PathVariable Long id) {
         taskService.deleteTask(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
-
-//    @GetMapping("/todo")
-//    public ResponseEntity<HttpStatus> test(
-//            @RequestParam(value = "status", required = false) TaskStatus status,
-//            @RequestParam(value = "id", required = false) Long id,
-//            @RequestParam(value = "page", required = false, defaultValue = "1") Long page,
-//            @RequestParam(value = "size", required = false, defaultValue = "10") Long size) {
-//
-//    }
-
-
 }
